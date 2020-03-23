@@ -1,0 +1,29 @@
+model:
+  arch: Resnet50
+  num_classes: 2
+  pretrained: False
+  fix_fc: True
+device_ids: [0, 1 ,2 ,3]
+workers: 4 
+max_epoch: 10
+max_iteration: 50000 
+batch_size: 128
+
+lr:
+  base_lr: 0.1
+  lr_decay_factor: 0.1
+  lr_decay_epoch: 2
+  lr_lowest: 0.0001
+
+optimizer:
+  momentum: 0.9
+  weight_decay: 1e-4
+
+print_freq: 100
+validation_freq: 1000
+log: report.txt
+input_size: 299
+Dataset:
+  train_set: xxxxx.txt
+  test_set: xxxxxx.txt
+  
