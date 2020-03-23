@@ -244,7 +244,7 @@ def validate(val_loader, model, criterion, args):
                 result.append(image_path[j] + ' ' +str(int(target[j].item())) + ' ' + str(float(softmax[j][1].item())) + '\n')
 
         # TODO: this should also be done with the ProgressMeter
-        print(' * Acc@1 {top1.avg:.3f} Acc@5 {top5.avg:.3f} loss {losses.avg:.3f}'
+        print(' * Acc@1 {top1.avg:.3f} Acc@2 {top5.avg:.3f} loss {losses.avg:.3f}'
               .format(top1=top1, top5=top2, losses=losses))
 
     return top1.avg, losses.avg, result
