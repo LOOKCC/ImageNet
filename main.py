@@ -4,7 +4,7 @@ import random
 import shutil
 import time
 import warnings
-
+from argparse import Namespace
 import torch
 import torch.nn as nn
 import torch.nn.parallel
@@ -36,28 +36,30 @@ parser.add_argument('--save', type=str, help='save_dir')
 
 device = torch.device("cuda:0")
 
+
 def main():
     args = parser.parse_args()
     with open(args.config, 'r') as f:
-        config = yaml.load(y)
+        config = yaml.load(f, Loader=yaml.FullLoader)
     
-    args.updata(config)
+    config.update(vars(args))
+    args = Namespace(**config)
     if not os.path.exists(args.save):
         os.mkdir(args.save)
     print('Saveing configs to ' + args.save + '/' +'used_config...')
     with open(args.save + '/' +'used_config', 'w') as f:
-        print(yaml.dump(args, f))
+        yaml.dump(config, f)
     # parpaer tensorboard
     writer = SummaryWriter(args.save)
     if not args.resume:
         fout = open(os.path.join(args.save, args.log), 'w')
-        fout.write('name epoch loss acc lr\n')
+        fout.write('name iter loss acc lr\n')
         fout.close()
 
-    model = models.__dict__[args.model.arch](num_classes=args.model.num_classes, pretrained=args.model.pretrained)
-    if args.model.fix_fc:
+    model = models.__dict__[args.arch](num_classes=args.num_classes)
+    if args.fix_fc:
         num_ftrs = model.fc.in_features
-        model.fc = nn.Linear(num_ftrs, args.model.num_classes)
+        model.fc = nn.Linear(num_ftrs, args.num_classes)
     
     num = torch.cuda.device_count()
     print('device:', num)
@@ -66,9 +68,9 @@ def main():
 
     criterion = nn.CrossEntropyLoss()
 
-    optimizer = torch.optim.SGD(model.parameters(), args.lr.base_lr,
-                                momentum=args.optimizer.momentum,
-                                weight_decay=args.optimizer.weight_decay)
+    optimizer = torch.optim.SGD(model.parameters(), args.base_lr,
+                                momentum=args.momentum,
+                                weight_decay=args.weight_decay)
 
     # optionally resume from a checkpoint
     start_iter = 0

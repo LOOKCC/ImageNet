@@ -1,0 +1,27 @@
+arch: xception
+base_lr: 0.1
+batch_size: 1
+config: config.yaml
+device_ids:
+- 0
+- 1
+evaluate: false
+fix_fc: true
+input_size: 299
+log: report.txt
+lr_decay_epoch: 2
+lr_decay_factor: 0.1
+lr_lowest: 0.0001
+max_epoch: 10
+max_iteration: 50000
+momentum: 0.9
+num_classes: 1000
+pretrained: true
+print_freq: 100
+resume: ''
+save: save_test
+test_set: /data/shengqiang/data/face_95_blaze_dlib/test_image_4k.txt
+train_set: /data/shengqiang/data/face_95_blaze_dlib/test_image_4k.txt
+validation_freq: 1000
+weight_decay: 1e-4
+workers: 3
