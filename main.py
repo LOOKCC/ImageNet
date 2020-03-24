@@ -26,7 +26,7 @@ import yaml
 
 
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
-parser.add_argument('-c', '--config', default='config.yaml', type=str)
+parser.add_argument('-c', '--config', default='config.yaml', type=str, help='path to config file.')
 parser.add_argument('--resume', default='', type=str, metavar='PATH',
                     help='path to latest checkpoint (default: none)')
 parser.add_argument('-e', '--evaluate', dest='evaluate', action='store_true',
