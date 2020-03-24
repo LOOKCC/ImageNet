@@ -1,6 +1,6 @@
 arch: xception
 num_classes: 1000
-pretrained: True
+#pretrained: True
 fix_fc: True
 device_ids: [0, 1]
 workers: 3
