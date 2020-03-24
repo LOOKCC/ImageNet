@@ -64,4 +64,4 @@ iter train_loss train_acc test_loss test_acc lr
 This informaion will help you to choose checkpoints.
 
 ## Finally
-I will very appreciate if this repository helps your training. GL&HF
+I will very appreciate if this repository helps your training. GL&HF.
