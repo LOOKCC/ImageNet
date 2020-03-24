@@ -126,6 +126,7 @@ def main():
         start_iter = train(train_loader, val_loader, model, criterion, optimizer, epoch, args, writer, start_iter)
         if start_iter > args.max_iteration:
             print('Training over at', args.max_epoch, 'iteration.')
+            break
     print('Training over at', epoch, 'iteration.')
 
 def train(train_loader, val_loader, model, criterion, optimizer, epoch, args, writer, start_iter):
