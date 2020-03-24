@@ -44,7 +44,7 @@ CUDA_VISIBLE_DEVICE=2,3 python main.py -c config.yaml --save save_test
 ## Tensorboard
 If you want to use Tensorboard:
 ```
-tendorboard --logdir=. --port=8090 --blind_all
+tesorboard --logdir=. --port=8090 --blind_all
 ```
 
 ## Add Models
