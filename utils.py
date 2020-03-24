@@ -64,7 +64,7 @@ class ProgressMeter_test(object):
         self.meters = meters
         self.prefix = prefix
 
-    def display(self, batch, iter):
+    def display(self, batch):
         entries = [self.prefix + self.batch_fmtstr.format(batch)]
         entries += [str(meter) for meter in self.meters]
         print('\t'.join(entries))
@@ -77,9 +77,9 @@ class ProgressMeter_test(object):
 
 def adjust_learning_rate(optimizer, epoch, args):
     """Sets the learning rate to the initial LR decayed by 10 every 3 epochs"""
-    lr = args.lr * (args.lr_decay_factor ** (epoch // args.lr_decay_epoch))
-    if lr < args.lr.lr_lowest:
-        lr = args.lr.lr_lowest
+    lr = args.base_lr * (args.lr_decay_factor ** (epoch // args.lr_decay_epoch))
+    if lr < args.lr_lowest:
+        lr = args.lr_lowest
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
 

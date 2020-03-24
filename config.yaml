@@ -5,7 +5,7 @@ fix_fc: True
 device_ids: [0, 1]
 workers: 3
 max_epoch: 10
-max_iteration: 50000 
+max_iteration: 2000
 batch_size: 1
 
 base_lr: 0.1
@@ -14,12 +14,12 @@ lr_decay_epoch: 2
 lr_lowest: 0.0001
 
 momentum: 0.9
-weight_decay: 1e-4
+weight_decay: 0.0001
 
 print_freq: 100
 validation_freq: 1000
 log: report.txt
 input_size: 299
-train_set: /data/shengqiang/data/face_95_blaze_dlib/test_image_4k.txt 
-test_set: /data/shengqiang/data/face_95_blaze_dlib/test_image_4k.txt 
+train_set: /public/caojuan/wangzhihao/data/test_meta/all_image.txt
+test_set: /public/caojuan/wangzhihao/data/test_meta/temp.txt
   

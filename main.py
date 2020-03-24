@@ -53,7 +53,7 @@ def main():
     writer = SummaryWriter(args.save)
     if not args.resume:
         fout = open(os.path.join(args.save, args.log), 'w')
-        fout.write('name iter loss acc lr\n')
+        fout.write('iter train_loss train_acc test_loss test_acc lr\n')
         fout.close()
 
     model = models.__dict__[args.arch](num_classes=args.num_classes)
@@ -74,11 +74,12 @@ def main():
 
     # optionally resume from a checkpoint
     start_iter = 0
+    start_epoch = 0
     if args.resume:
         if os.path.isfile(args.resume):
             print("=> loading checkpoint '{}'".format(args.resume))
             checkpoint = torch.load(args.resume)
-            args.start_epoch = checkpoint['epoch']
+            start_epoch = checkpoint['epoch']
             best_acc1 = checkpoint['best_acc1']
             start_iter = checkpoint['iter']
             model.load_state_dict(checkpoint['state_dict'])
@@ -119,7 +120,7 @@ def main():
             f.writelines(result)
         return
     
-    for epoch in range(args.start_epoch, args.epochs):
+    for epoch in range(start_epoch, args.max_epoch):
         adjust_learning_rate(optimizer, epoch, args)
         # train for one epoch
         start_iter = train(train_loader, val_loader, model, criterion, optimizer, epoch, args, writer, start_iter)
@@ -172,14 +173,14 @@ def train(train_loader, val_loader, model, criterion, optimizer, epoch, args, wr
             
         if i > 0 and (start_iter + i)%args.validation_freq == 0:
             acc1, loss, result = validate(val_loader, model, criterion, args)
-            writer.add_scalar('Test/Loss', loss, epoch)
-            writer.add_scalar('Test/ACC', acc1, epoch)
+            writer.add_scalar('Test/Loss', loss, start_iter + i)
+            writer.add_scalar('Test/ACC', acc1, start_iter + i)
             writer.flush()
             for param_group in optimizer.param_groups:
                 now_lr = param_group['lr'] 
                 break
             with open(os.path.join(args.save, args.log), 'a+') as f:
-                f.write('Test: '  + str(start_iter + i) + ' ' + str(loss) + ' ' + str(float(acc1)) + ' ' + str(now_lr) +'\n')
+                f.write(str(start_iter + i) + ' ' + str(losses.avg) +  ' ' + str(float(top1.avg)) + ' ' + str(loss) + ' ' + str(float(acc1)) + ' ' + str(now_lr) +'\n')
 
             with open(os.path.join(args.save, 'result_' + str(start_iter + i) + '.txt'), 'w') as f:
                 f.writelines(result)
@@ -190,14 +191,9 @@ def train(train_loader, val_loader, model, criterion, optimizer, epoch, args, wr
                 'iter':start_iter
             }, os.path.join(args.save, 'ckpt_'), start_iter + i)
             
-    writer.add_scalar('Train/Loss', losses.avg, epoch)
-    writer.add_scalar('Train/ACC', top1.avg, epoch)
-    writer.flush()
-    for param_group in optimizer.param_groups:
-        now_lr = param_group['lr'] 
-        break
-    with open(os.path.join(args.save, args.log), 'a+') as f:
-        f.write('Train: '  + str(epoch) + ' ' + str(losses.avg) + ' ' + str(float(top1.avg)) + ' ' + str(now_lr) +'\n')
+            writer.add_scalar('Train/Loss', losses.avg, start_iter + i)
+            writer.add_scalar('Train/ACC', top1.avg, start_iter + i)
+            writer.flush()
     
 
     return start_iter+len(train_loader)
