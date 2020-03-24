@@ -124,8 +124,9 @@ def main():
         adjust_learning_rate(optimizer, epoch, args)
         # train for one epoch
         start_iter = train(train_loader, val_loader, model, criterion, optimizer, epoch, args, writer, start_iter)
-
-
+        if start_iter > args.max_iteration:
+            print('Training over at', args.max_epoch, 'iteration.')
+    print('Training over at', epoch, 'iteration.')
 
 def train(train_loader, val_loader, model, criterion, optimizer, epoch, args, writer, start_iter):
     batch_time = AverageMeter('Time', ':6.3f')
@@ -169,7 +170,7 @@ def train(train_loader, val_loader, model, criterion, optimizer, epoch, args, wr
         if i % args.print_freq == 0:
             progress.display(i, start_iter + i)
         if start_iter + i > args.max_iteration:
-            break
+            return start_iter + i
             
         if i > 0 and (start_iter + i)%args.validation_freq == 0:
             acc1, loss, result = validate(val_loader, model, criterion, args)
