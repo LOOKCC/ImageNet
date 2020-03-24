@@ -145,6 +145,7 @@ def train(train_loader, val_loader, model, criterion, optimizer, epoch, args, wr
 
     end = time.time()
     for i, (images, target) in enumerate(train_loader):
+        model.train()
         # measure data loading time
         data_time.update(time.time() - end)
 

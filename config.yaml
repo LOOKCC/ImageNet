@@ -20,6 +20,6 @@ print_freq: 100
 validation_freq: 1000
 log: report.txt
 input_size: 299
-train_set: /public/caojuan/wangzhihao/data/test_meta/all_image.txt
-test_set: /public/caojuan/wangzhihao/data/test_meta/temp.txt
+train_set: /data/shengqiang/data/new_train_and_test/test_image.txt
+test_set: /data/shengqiang/data/new_train_and_test/test_image.txt
   
