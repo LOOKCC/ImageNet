@@ -11,7 +11,16 @@ pip install PyYAML
 ```
 
 ## Config
-config is at config.yaml, Because they are commonly used configurations, they will not be explained here.
+config is at config.yaml, They are commonly used configurations, such as lr or batch_szie.
+There are some important config need to be explanded.
+ - `fix_fc` Because imagenet has 1000 classes, when your task has 2 classes, you need to fix last fc layer. But if the fc is 2, you can't load imagenet pretrain models. So you need to fix fc layer after load imagenet checkpoint.
+ - `max_epoch`  and  `max_iteration` Your training will stop when epoch reach max_epoch or iteration reach max_iteration. So you should make both of them a lager number to avoid stopping early.
+ - lr just follow this formula, and `lr_lowest` represents the lowest lr.  
+ ```
+ lr = args.base_lr * (args.lr_decay_factor ** (epoch // args.lr_decay_epoch))
+ ```
+ - `validation_freq` controls how many iterations to test.
+
 
 ## Dataset
 In config, there are two text file represented train_set and test_set.

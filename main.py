@@ -145,7 +145,6 @@ def train(train_loader, val_loader, model, criterion, optimizer, epoch, args, wr
 
     end = time.time()
     for i, (images, target) in enumerate(train_loader):
-        model.train()
         # measure data loading time
         data_time.update(time.time() - end)
 
@@ -176,6 +175,7 @@ def train(train_loader, val_loader, model, criterion, optimizer, epoch, args, wr
             
         if i > 0 and (start_iter + i)%args.validation_freq == 0:
             acc1, loss, result = validate(val_loader, model, criterion, args)
+            model.train()
             writer.add_scalar('Test/Loss', loss, start_iter + i)
             writer.add_scalar('Test/ACC', acc1, start_iter + i)
             writer.flush()

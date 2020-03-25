@@ -5,8 +5,8 @@ fix_fc: True
 device_ids: [0, 1]
 workers: 3
 max_epoch: 10
-max_iteration: 2000
-batch_size: 1
+max_iteration: 400000
+batch_size: 256
 
 base_lr: 0.1
 lr_decay_factor: 0.1
@@ -17,7 +17,7 @@ momentum: 0.9
 weight_decay: 0.0001
 
 print_freq: 100
-validation_freq: 1000
+validation_freq: 2000
 log: report.txt
 input_size: 299
 train_set: /data/shengqiang/data/new_train_and_test/test_image.txt
