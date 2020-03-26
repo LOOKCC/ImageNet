@@ -1,5 +1,6 @@
 arch: xception
-num_classes: 1000
+num_classes: 2
+imagenet_num_classes: 1000
 #pretrained: True
 fix_fc: True
 device_ids: [0, 1]

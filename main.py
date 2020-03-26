@@ -56,7 +56,7 @@ def main():
         fout.write('iter train_loss train_acc test_loss test_acc lr\n')
         fout.close()
 
-    model = models.__dict__[args.arch](num_classes=args.num_classes)
+    model = models.__dict__[args.arch](num_classes=args.imagenet_num_classes)
     if args.fix_fc:
         num_ftrs = model.fc.in_features
         model.fc = nn.Linear(num_ftrs, args.num_classes)
